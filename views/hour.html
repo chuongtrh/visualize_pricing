@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hour Pricing</title>
+    <style>
+        table,
+        td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+<script src="https://unpkg.com/dayjs@1.8.21/plugin/customParseFormat.js"></script>
+<script>dayjs.extend(window.dayjs_plugin_customParseFormat)</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="../js/hour.js"></script>
+<script src="../js/accounting.min.js"></script>
+
+
+<body onload="onPageLoad()">
+    <h2>Visualize Hour Pricing</h2>
+    <div style="margin-top: 20px;display: flex;">
+        <div>
+            <div>Base price <input id="basePrice" type="text" style="width: 200px;" value="100"></div>
+            <table id="inputTable" style="margin-top: 10px;margin-bottom: 10px;">
+            </table>
+            <button type="button" onclick="clickAdd()">Add</button>
+        </div>
+        <div style="margin-left: 20px;margin-top: 20px;display: flex;">
+            <div>
+                <div>Time Range <input id="timeRange" type="text" style="width: 100px;" value="6,10"></div>
+                <div>StartDate <input id="startDate" type="text" style="width: 100px;"></div>
+                <div>EndDate <input id="endDate" type="text" style="width: 100px;"></div>
+                <button type="button" style="margin-top: 10px;" onclick="clickPreview()">Preview</button>
+            </div>
+            <div id="result3" style="margin-left: 30px;"></div>
+        </div>
+    </div>
+
+    <div id="resultPanel" style="overflow-x: auto; height: 200px;">
+        <div id="result1" style="margin-top: 20px;"></div>
+        <div style="display: flex;margin-top: 10px;"><b>Timeline:</b></div>
+        <div id="result2" style="display: flex;margin-top: 10px; margin-bottom: 20px;"></div>
+    </div>
+
+    <!-- <hr width="100000px"> -->
+
+</body>
+
+</html>
