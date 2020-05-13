@@ -4,8 +4,6 @@ let colors = ['#ff0000', '#00bfff', '#ff8000', '#ffff00', '#83e800', '#00ffbf', 
 
 const widthOfDay = 40;
 const marginOfDay = 2;
-let maxDate = dayjs('01-01-1970', "DD-MM-YYYY");
-let minDate = dayjs('01-01-2050', "DD-MM-YYYY");
 let diffDay = 0;
 let basePrice = 0;
 let startDate;
@@ -43,7 +41,7 @@ function clickAdd() {
 function changeTest(element) {
 
     var val = $(element).val()
-    // console.log(val, $(element))
+
     if (val == 'by_days' || val == 'custom_range') {
         let cell = element.parentElement.parentElement.cells[4]
         cell.innerHTML = `<div>
@@ -102,12 +100,7 @@ function processData() {
 
     startDate = dayjs(startDate, "DD-MM-YYYY")
     endDate = dayjs(endDate, "DD-MM-YYYY")
-    // console.log('basePrice', basePrice);
-    // console.log('startDate', startDate);
-    // console.log('endDate', endDate);
 
-    minDate = startDate.clone()
-    maxDate = endDate.clone()
 
     var table = document.getElementById('inputTable');
     for (var r = 0, n = table.rows.length; r < n; r++) {
@@ -122,7 +115,6 @@ function processData() {
                 checkeds.push(item.name)
             }
         }
-        // console.log('checkeds', checkeds);
 
         //2020-05-01,2020-05-10
         let arrDates = [];
@@ -143,8 +135,6 @@ function processData() {
         } else if (option == 'by_days') {
             let start = dayjs(values[0], 'MM-YYYY');
             let end = dayjs(values[values.length - 1], 'MM-YYYY').endOf('month');
-            // console.log('start', start)
-            // console.log('end', end)
 
             while (start <= end) {
                 let ddd = start.format('ddd');
@@ -156,8 +146,6 @@ function processData() {
         } else if (option == 'by_months') {
             let start = dayjs(values[0]);
             let end = dayjs(values[values.length - 1]).endOf('year');
-            // console.log('start', start)
-            // console.log('end', end)
 
             while (start <= end) {
                 let ddd = start.format('MMM');
@@ -167,23 +155,13 @@ function processData() {
                 start = start.add(1, 'days');
             }
         }
-        minDate = Math.min(minDate, ...arrDates);
-        maxDate = Math.max(maxDate, ...arrDates);
-
         datas.push({
             price: parseFloat(price),
             dates: arrDates
         });
 
-        // console.log('datas', datas);
-        // console.log('minDate', dayjs(minDate).format('YYYY-MM-DD'));
-        // console.log('maxDate', dayjs(maxDate).format('YYYY-MM-DD'));
     }
-    minDate = dayjs(minDate)
-    maxDate = dayjs(maxDate)
-    diffDay = maxDate.diff(minDate, 'day') + 1;
-    // console.log('diffDay', diffDay, minDate, maxDate)
-
+    diffDay = endDate.diff(startDate, 'day') + 1;
 }
 
 function getDateApply(dateApply) {
@@ -215,13 +193,18 @@ function displayResult() {
 
     datas.forEach(function ({ dates }, index) {
 
-        let tempHTML = ''
+        let tempHTML = '';
         dates.forEach(date => {
-            let diff = date.diff(minDate, 'day');
-            // console.log('diff', diff, index, date)
-            tempHTML += `<div style="background-color: ${colors[index]}; left:${diff * widthOfDay}px;width: ${widthOfDay - marginOfDay}px;height: 40px;position: absolute;font-size:10px">${date.format('ddd DD-MMM-YY')}</div>`
+            let diffStart = date.diff(startDate, 'day');
+            let diffEnd = endDate.diff(date, 'day');
+
+            if (diffStart >= 0 && diffEnd >= 0) {
+                tempHTML += `<div style="background-color: ${colors[index]}; left:${diffStart * widthOfDay}px;width: ${widthOfDay - marginOfDay}px;height: 40px;position: absolute;font-size:10px">${date.format('ddd DD-MMM-YY')}</div>`
+            }
         })
-        innerHTML1 += `<div style="display: flex;position: relative;height: 40px">${tempHTML}</div><hr width="100000px">`
+        if (tempHTML.length > 0) {
+            innerHTML1 += `<div style="display: flex;position: relative;height: 40px">${tempHTML}</div><hr width="100000px">`
+        }
     })
     result1.innerHTML = innerHTML1;
 
@@ -249,7 +232,7 @@ function displayResult() {
         }
         totalDay++;
         totalPrice += parseFloat(price);
-        let diff = dateApply.diff(minDate, 'day');
+        let diff = dateApply.diff(startDate, 'day');
         // console.log('diff', diff, color, price, dateApply)
         tempHTML += `<div style="background-color: ${color}; left:${diff * widthOfDay}px;width: ${widthOfDay - marginOfDay}px;height: 40px;position: absolute;font-size:10px">${dateApply.format('ddd DD-MMM-YY')}<br>${price}</div>`
 
