@@ -7,9 +7,8 @@ Tool visualize pricing
 
 
 ## Screenshots
-
 Visualize pricing by day
-![](https://raw.githubusercontent.com/TranChuong/visualize_pricing/master/screenshoots/Screen1.png)
+![](https://raw.githubusercontent.com/chuongtrh/visualize_pricing/master/screenshoots/Screen1.png)
 
 Visualize pricing by hour
-![](https://raw.githubusercontent.com/TranChuong/visualize_pricing/master/screenshoots/Screen2.png)
+![](https://raw.githubusercontent.com/chuongtrh/visualize_pricing/master/screenshoots/Screen2.png)
