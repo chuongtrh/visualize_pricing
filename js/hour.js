@@ -112,19 +112,18 @@ function getHourApply(dateApply) {
     let n = datas.length;
     let hour = dateApply.hour();
     let ddd = dateApply.format('ddd');
-
-    for (let i = n - 1; i >= 0; i--) {
-        const { price, timeSlots, checkeds } = datas[i];
-
-        if (timeSlots.includes(hour) && checkeds.includes(ddd)) {
-            return {
-                setup: i,
-                color: colors[i],
-                price: price
-            };
-        }
-    }
     if (hour >= startTimeSlot && hour < endTimeSlot) {
+        for (let i = n - 1; i >= 0; i--) {
+            const { price, timeSlots, checkeds } = datas[i];
+            // console.log('timeSlots', timeSlots, checkeds, hour)
+            if (timeSlots.includes(hour) && checkeds.includes(ddd)) {
+                return {
+                    setup: i,
+                    color: colors[i],
+                    price: price
+                };
+            }
+        }
         return {
             setup: -1,
             color: colors[colors.length - 1],
